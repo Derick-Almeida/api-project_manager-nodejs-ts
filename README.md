@@ -1,13 +1,13 @@
-POST /user - cria um usuario
-POST /login - inicia a seção
-POST /email - envia um email
-POST /project - cria um novo projeto
+POST /users - cria um usuario <br/>
+POST /login - inicia a seção <br/>
+POST /email - envia um email <br/>
+POST /projects - cria um novo projeto <br/>
 
-GET /project - lista os projetos do usuario
-GET /project/:id - pega um projeto do usuario
+GET /projects - lista os projetos do usuario <br/>
+GET /projects/:id - pega um projeto do usuario <br/>
 
-PATCH /project/:id - atualiza um projeto do usuario
-PATCH /user/:id - atualiza um usuario
+PATCH /projects/:id - atualiza um projeto do usuario <br/>
+PATCH /users/:id - atualiza um usuario <br/>
 
-DELETE /user/:id - remove um usuario
-DELETE /project/:id - remove um projeto do usuario
+DELETE /users/:id - remove um usuario <br/>
+DELETE /projects/:id - remove um projeto do usuario <br/>
