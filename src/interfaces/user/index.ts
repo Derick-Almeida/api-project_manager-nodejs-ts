@@ -10,9 +10,9 @@ interface IUserLogin {
 }
 
 interface IUserSendEmail {
-  name: string;
   email: string;
   subject: string;
+  text: string;
 }
 
 export { IUserRequest, IUserLogin, IUserSendEmail };
