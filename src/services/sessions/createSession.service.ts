@@ -20,10 +20,16 @@ const createSessionService = async ({ email, password }: IUserLogin): Promise<st
     throw new AppError("Email or password invalid");
   }
 
-  const token = jwt.sign({ email: user.email }, process.env.SECRET_KEY as string, {
-    expiresIn: "1d",
-    subject: user.id,
-  });
+  const token = jwt.sign(
+    {
+      email: user.email,
+    },
+    process.env.SECRET_KEY as string,
+    {
+      expiresIn: "1d",
+      subject: user.id,
+    }
+  );
 
   return token;
 };

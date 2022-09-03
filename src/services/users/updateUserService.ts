@@ -1,8 +1,8 @@
-import { compare, hash } from "bcryptjs";
 import AppDataSource from "../../data-source";
-import { User } from "../../entities/users.entity";
 import AppError from "../../errors/AppError";
 import { IUserRequest } from "../../interfaces/user";
+import { User } from "../../entities/users.entity";
+import { compare, hash } from "bcryptjs";
 
 const updateUserService = async (
   id: string,
@@ -17,7 +17,7 @@ const updateUserService = async (
     throw new AppError("User not found", 404);
   }
 
-  if (user.id !== userId) {
+  if (id !== userId) {
     throw new AppError("User does not have permission", 401);
   }
 

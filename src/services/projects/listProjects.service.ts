@@ -1,10 +1,12 @@
 import AppDataSource from "../../data-source";
-import { ProjectBackEnd } from "../../entities/projectsBackEnd.entity";
-import { ProjectFrontEnd } from "../../entities/projectsFrontEnd.entity";
+import { Project } from "../../entities/projects.entity";
 
-const ListProjectsService = () => {
-  const projectsFrontRepository = AppDataSource.getRepository(ProjectFrontEnd);
-  const projectsBackRepository = AppDataSource.getRepository(ProjectBackEnd);
+const ListProjectsService = async (): Promise<Project[]> => {
+  const projectsRepository = AppDataSource.getRepository(Project);
+
+  const projectList = await projectsRepository.find();
+
+  return projectList;
 };
 
 export default ListProjectsService;

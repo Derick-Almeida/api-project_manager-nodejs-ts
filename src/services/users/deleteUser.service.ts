@@ -10,7 +10,7 @@ const deleteUserService = async (id: string, userId: string) => {
     throw new AppError("User not found", 404);
   }
 
-  if (user.id !== userId) {
+  if (id !== userId) {
     throw new AppError("User does not have permission", 401);
   }
 

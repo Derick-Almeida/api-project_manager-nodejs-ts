@@ -1,7 +1,7 @@
 import AppDataSource from "../../data-source";
 import AppError from "../../errors/AppError";
-import { User } from "../../entities/users.entity";
 import { IUserRequest } from "../../interfaces/user";
+import { User } from "../../entities/users.entity";
 import { hash } from "bcryptjs";
 
 const createUserService = async ({ email, name, password }: IUserRequest): Promise<User> => {
@@ -21,7 +21,9 @@ const createUserService = async ({ email, name, password }: IUserRequest): Promi
     password: hashedPasword,
   });
 
-  return user;
+  const createdUser = await userRepository.findOneBy({ id: user.id });
+
+  return createdUser!;
 };
 
 export default createUserService;
