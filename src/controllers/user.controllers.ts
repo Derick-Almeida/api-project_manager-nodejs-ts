@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import { IUserRequest } from "../interfaces/user";
-import createUserService from "../services/users/createUser.service";
 import { instanceToPlain } from "class-transformer";
+
+import createUserService from "../services/users/createUser.service";
 import getUserService from "../services/users/getUser.service";
 import updateUserService from "../services/users/updateUserService";
 import deleteUserService from "../services/users/deleteUser.service";
@@ -10,7 +11,7 @@ const createUserController = async (req: Request, res: Response) => {
   const { email, name, password }: IUserRequest = req.body;
   const user = await createUserService({ email, name, password });
 
-  return res.status(201).json({ ...user, password: undefined });
+  return res.status(201).json(instanceToPlain(user));
 };
 
 const getUserController = async (req: Request, res: Response) => {

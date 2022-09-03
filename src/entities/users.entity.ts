@@ -1,13 +1,6 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  OneToOne,
-  JoinColumn,
-} from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Exclude } from "class-transformer";
-import { FrontEndBackEnd } from "./frondEndBackEnd.entity";
+import { Project } from "./projects.entity";
 
 @Entity("users")
 class User {
@@ -17,7 +10,7 @@ class User {
   @Column({ length: 150 })
   name: string;
 
-  @Column({ length: 150 })
+  @Column({ length: 200, unique: true })
   email: string;
 
   @Column({ length: 150 })
@@ -30,9 +23,8 @@ class User {
   @CreateDateColumn({ type: "date" })
   updatedAt: Date;
 
-  @OneToOne(() => FrontEndBackEnd, { eager: true })
-  @JoinColumn()
-  projects: FrontEndBackEnd;
+  @OneToMany(() => Project, (project) => project.user, { onDelete: "CASCADE", eager: true })
+  projects: Project[];
 }
 
 export { User };
