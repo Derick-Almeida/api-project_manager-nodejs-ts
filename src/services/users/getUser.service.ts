@@ -11,7 +11,7 @@ const getUserService = async (id: string, userId: string) => {
   }
 
   if (id !== userId) {
-    throw new AppError("User does not have permission", 401);
+    throw new AppError("User does not have permission", 403);
   }
 
   return user;
