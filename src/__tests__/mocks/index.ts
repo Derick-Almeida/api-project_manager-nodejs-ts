@@ -1,3 +1,4 @@
+import { IProjectRequest } from "../../interfaces/projects";
 import { IUserLogin, IUserRequest } from "../../interfaces/user";
 
 const mockedUser: IUserRequest = {
@@ -44,6 +45,33 @@ const mockedUpdatedUserToBeDeleted: IUserRequest = {
   password: "123456",
 };
 
+const mockedProject: IProjectRequest = {
+  image: "https://teste.com",
+  name: "teste",
+  description: "uma mensagem qualquer",
+  application: "https://teste.com",
+  repository: "https://teste.com",
+  type: "Front-end",
+};
+
+const mockedInvalidProject: IProjectRequest = {
+  image: "https://teste.com",
+  name: "tv",
+  description: "ai",
+  application: "https://teste.com",
+  repository: "https://teste.com",
+  type: "Front-end",
+};
+
+const mockedUpdatedProject: IProjectRequest = {
+  image: "https://teste.com",
+  name: "updated test",
+  description: "uma mensagem qualquer atualizada",
+  application: "https://teste.com",
+  repository: "https://teste.com",
+  type: "Back-end",
+};
+
 export {
   mockedUser,
   mockedUserToBeDeleted,
@@ -53,4 +81,7 @@ export {
   mockedUserLoginToBeDeleted,
   mockedUpdatedUser,
   mockedUpdatedUserToBeDeleted,
+  mockedProject,
+  mockedInvalidProject,
+  mockedUpdatedProject,
 };

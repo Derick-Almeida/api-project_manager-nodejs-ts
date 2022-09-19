@@ -8,14 +8,17 @@ const deleteProjectService = async (id: string, userId: string) => {
   const userRepository = AppDataSource.getRepository(User);
 
   const user = await userRepository.findOneBy({ id: userId });
-  const project = await projectRepository.findOneBy({ id });
+  const project = await projectRepository.findOne({
+    where: { id },
+    relations: { user: true },
+  });
 
   if (!project) {
     throw new AppError("Project not found", 404);
   }
 
-  if (user!.id !== userId) {
-    throw new AppError("User does not have permission", 401);
+  if (project.user.id !== user!.id) {
+    throw new AppError("User does not have permission", 403);
   }
 
   await projectRepository.delete(id);

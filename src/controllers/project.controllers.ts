@@ -10,24 +10,26 @@ import updateProjectService from "../services/projects/updateProject.service";
 
 const createProjectController = async (req: Request, res: Response) => {
   const { name, type, image, description, application, repository }: IProjectRequest = req.body;
-  const userId = req.user.id;
+  const userLogged = req.user.id;
   const project = await createProjectService(
     { name, type, image, description, application, repository },
-    userId
+    userLogged
   );
 
   return res.status(201).json(instanceToPlain(project));
 };
 
 const listProjectsController = async (req: Request, res: Response) => {
-  const projectList = await ListProjectsService();
+  const userLogged = req.user.id;
+  const projectList = await ListProjectsService(userLogged);
 
   return res.json(projectList);
 };
 
 const getOneProjectController = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const project = await getOneProjectService(id);
+  const userLogged = req.user.id;
+  const project = await getOneProjectService(id, userLogged);
 
   return res.json(project);
 };
@@ -35,8 +37,8 @@ const getOneProjectController = async (req: Request, res: Response) => {
 const updatedProjectController = async (req: Request, res: Response) => {
   const { name, type, image, description, application, repository }: IProjectRequest = req.body;
   const { id } = req.params;
-  const userId = req.user.id;
-  const project = await updateProjectService(id, userId, {
+  const userLogged = req.user.id;
+  const project = await updateProjectService(id, userLogged, {
     name,
     type,
     image,
@@ -45,13 +47,13 @@ const updatedProjectController = async (req: Request, res: Response) => {
     repository,
   });
 
-  return res.status(201).json(project);
+  return res.status(200).json(project);
 };
 
 const deleteProjectController = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const userId = req.user.id;
-  await deleteProjectService(id, userId);
+  const userLogged = req.user.id;
+  await deleteProjectService(id, userLogged);
 
   return res.status(204).send();
 };

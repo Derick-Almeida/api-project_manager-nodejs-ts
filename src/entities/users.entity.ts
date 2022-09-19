@@ -1,4 +1,11 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from "typeorm";
 import { Exclude } from "class-transformer";
 import { Project } from "./projects.entity";
 
@@ -20,7 +27,7 @@ class User {
   @CreateDateColumn({ type: "date" })
   createdAt: Date;
 
-  @CreateDateColumn({ type: "date" })
+  @UpdateDateColumn({ type: "date" })
   updatedAt: Date;
 
   @OneToMany(() => Project, (project) => project.user, { onDelete: "CASCADE", eager: true })

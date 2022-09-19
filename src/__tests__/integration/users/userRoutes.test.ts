@@ -87,14 +87,14 @@ describe("teste das rotas de usuário", () => {
     expect(response.body).toMatchObject(userCreated);
   });
 
-  test("GET /users/:id - Não deve ser capaz de buscar um usuario sem autorização", async () => {
+  test("GET /users/:id - Não deve ser capaz de buscar um usuário sem autorização", async () => {
     const response = await request(app).get(`/users/${userId}`);
 
     expect(response.status).toBe(401);
     expect(response.body).toHaveProperty("message");
   });
 
-  test("GET /users/:id - Não deve ser capaz de buscar um usuario caso o id informado não seja pertecente ao usuário logado", async () => {
+  test("GET /users/:id - Não deve ser capaz de buscar um usuário caso o id informado não seja pertecente ao usuário logado", async () => {
     const otherUser = await request(app).post("/users").send(mockedUserToBeDeleted);
     const userLogin = await request(app).post("/login").send(mockedUserLogin);
     const response = await request(app)
@@ -105,7 +105,7 @@ describe("teste das rotas de usuário", () => {
     expect(response.body).toHaveProperty("message");
   });
 
-  test("GET /users/:id - Não deve ser capaz de buscar um usuario com id inválido", async () => {
+  test("GET /users/:id - Não deve ser capaz de buscar um usuário com id inválido", async () => {
     const userLogin = await request(app).post("/login").send(mockedUserLogin);
     const response = await request(app)
       .get(`/users/${invalidUserId}`)
