@@ -1,5 +1,12 @@
 import { Exclude } from "class-transformer";
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from "typeorm";
 import { User } from "./users.entity";
 
 @Entity("projects")
@@ -28,7 +35,7 @@ class Project {
   @CreateDateColumn({ type: "date" })
   createdAt: Date;
 
-  @CreateDateColumn({ type: "date" })
+  @UpdateDateColumn({ type: "date" })
   updatedAt: Date;
 
   @ManyToOne(() => User)
