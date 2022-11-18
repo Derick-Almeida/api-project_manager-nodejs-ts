@@ -1,17 +1,160 @@
 <h1 align='center'>Project_manager</h1>
 
-<p>
-a APi possui 12 endpoint sendo 5 deles ralacionados ao gerenciamento da conta do usuário e 7 deles de gerenciamento dos projetos
-</p>
-_____________________________________________________________________________________________________________________________________
+<h2>Sobre a API</h2>
 
-<h2 align="center">Rotas de usuário</h2>
+Project_manager é uma aplicação que permite o usuário armazenar seus
+projetos e filtrá-los através das categorias:
 
-## Rotas que não precisam de autorização
+- frontEnd
+- backEnd
+- fullStack
 
-`POST /users - cria um novo usuário`
+essa API tem o intuito de fornecer ao desenvolvedor um local onde ele possa armazenar </br>
+seus projetos de forma mais seletiva para que seja possível exibilos em outros projetos de forma </br>
+mais fácil como por exemplo, na contrução de seu portifólio.
 
-### Formato da Requisição:
+O url base da API é: https://
+
+---
+
+## Tabela de Conteúdos
+
+- [Visão Geral](#1-visão-geral)
+- [Início Rápido](#2-início-rápido)
+  - [Instalando Dependências](#21-instalando-dependências)
+  - [Variáveis de Ambiente](#22-variáveis-de-ambiente)
+  - [Migrations](#23-migrations)
+- [Autenticação](#3-autenticação)
+- [Endpoints](#4-endpoints)
+
+---
+
+## 1. Visão Geral
+
+Visão geral do projeto, um pouco das tecnologias usadas.
+
+- [NodeJS](https://nodejs.org/en/)
+- [Express](https://expressjs.com/pt-br/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [TypeORM](https://typeorm.io/)
+- [Docker](https://docs.docker.com/)
+- [Jest](https://jestjs.io/docs/getting-started)
+- [Yup](https://www.npmjs.com/package/yup)
+
+A URL base da aplicação:
+http://<base_url>
+
+## 2. Início Rápido
+
+[ Voltar para o topo ](#tabela-de-conteúdos)
+
+### 2.1. Instalando Dependências
+
+Clone o projeto em sua máquina e instale as dependências com o comando:
+
+```shell
+yarn
+```
+
+### 2.2. Variáveis de Ambiente
+
+Em seguida, crie um arquivo **.env**, copiando o formato do arquivo **.env.example**:
+
+```
+cp .env.example .env
+```
+
+Configure suas variáveis de ambiente com suas credenciais do Postgres e uma nova database da sua escolha.
+
+### 2.3. Migrations
+
+Execute as migrations com o comando:
+
+```
+yarn typeorm migration:run -d src/data-source
+```
+
+---
+
+## 3. Autenticação
+
+[ Voltar para o topo ](#tabela-de-conteúdos)
+
+Rotas que necessitam de autenticação deve ser informado no cabeçalho da requisição o campo "Authorization", dessa forma:
+
+> Authorization: Bearer {token}
+
+---
+
+## 4. Endpoints
+
+[ Voltar para o topo ](#tabela-de-conteúdos)
+
+### Índice
+
+- [Users](#1-users)
+  - [POST - /users](#11-criação-de-usuário)
+  - [POST - /login](#12-iniciando-sessão)
+  - [GET - /users/:user_id](#13-pegar-usuário-por-id)
+  - [PATCH - /users/:user_id](#14-atualizar-usuário-por-id)
+  - [DELETE - /users/:user_id](#15-remover-usuário-por-id)
+- [Projects](#2-projects)
+  - [POST - /projects](#21-criação-de-projeto)
+  - [GET - /projects](#22-listando-projetos)
+    - [GET - /projects?type=frontEnd](#221-filtrar-projetos-frontend)
+    - [GET - /projects?type=backEnd](#222-filtrar-projetos-backend)
+    - [GET - /projects?type=fullStack](#223-filtrar-projetos-fullstack)
+  - [GET - /projects/:id](#23-pegar-projeto-por-id)
+  - [PATCH - /projects/:id](#24-atualizar-projeto-por-id)
+  - [DELETE - /projects/:id](#25-remover-projeto-por-id)
+
+---
+
+## 1. **Users**
+
+[ Voltar para os Endpoints ](#4-endpoints)
+
+O objeto User é definido como:
+
+| Campo     | Tipo   | Descrição                             |
+| --------- | ------ | ------------------------------------- |
+| id        | string | Identificador único do usuário        |
+| name      | string | O nome do usuário.                    |
+| email     | string | O e-mail do usuário.                  |
+| password  | string | A senha de acesso do usuário          |
+| createdAt | date   | Data da criação do usuário            |
+| updatedAt | date   | Data da ultima atualização do usuário |
+| projects  | array  | Lista dos projetos do usuário         |
+
+### Endpoints
+
+| Método | Rota       | Descrição                                       |
+| ------ | ---------- | ----------------------------------------------- |
+| POST   | /users     | Criação de um usuário.                          |
+| POST   | /login     | Inicia a sessão do usuário                      |
+| GET    | /users/:id | Busca o usuário usando seu ID como parâmetro    |
+| PATCH  | /users/:id | Atualiza o usuário usando seu ID como parâmetro |
+| DELETE | /users/:id | Remove o usuário usando seu ID como parâmetro   |
+
+---
+
+### 1.1. **Criação de Usuário**
+
+[ Voltar para os Endpoints ](#4-endpoints)
+
+### `/users`
+
+### Exemplo de Request:
+
+```
+POST /users
+Host: http://<base_url>
+Authorization: None
+Content-type: application/json
+```
+
+### Corpo da Requisição:
 
 ```json
 {
@@ -21,46 +164,714 @@ ________________________________________________________________________________
 }
 ```
 
-### Retorno esperado - STATUS 201 Created:
+### Schema de Validação com Yup:
 
-```json
+```javascript
+  name: yup.string().required().min(3),
+  email: yup.string().required().email(),
+  password: yup.string().required().min(6),
+```
 
+OBS.: Chaves não presentes no schema serão removidas.
+
+### Exemplo de Response:
+
+```
+201 Created
 ```
 
 ```json
+{
+  "id": "a5a82435-b641-4efc-9acb-16464e38cd09",
+  "name": "jorge",
+  "email": "jorge@email.com",
+  "createdAt": "2022-11-17",
+  "updatedAt": "2022-11-17",
+  "projects": []
+}
+```
 
+### Possíveis Erros:
+
+| Código do Erro  | Descrição                               |
+| --------------- | --------------------------------------- |
+| 400 Bad Request | Email already registered.               |
+| 400 Bad Request | Password must be at least 6 characters. |
+| 400 Bad Request | `key` is a required field.              |
+
+---
+
+### 1.2. **Iniciando sessão**
+
+[ Voltar aos Endpoints ](#4-endpoints)
+
+### `/login`
+
+### Exemplo de Request:
+
+```
+POST /login
+Host: http://135131
+Authorization: None
+Content-type: application/json
+```
+
+### Corpo da Requisição:
+
+```json
+{
+  "email": "jorge@email.com",
+  "password": "123456"
+}
+```
+
+### Schema de Validação com Yup:
+
+```javascript
+  email: yup.string().required(),
+  password: yup.string().required(),
+```
+
+OBS.: Chaves não presentes no schema serão removidas.
+
+### Exemplo de Response:
+
+```
+200 OK
 ```
 
 ```json
+{
+  "token": "xxx.xxx.xxx"
+}
+```
 
+### Possíveis Erros:
+
+| Código do Erro  | Descrição                  |
+| --------------- | -------------------------- |
+| 400 Bad Request | Email or password invalid. |
+
+### 1.3. **Pegar Usuário por ID**
+
+[ Voltar aos Endpoints ](#4-endpoints)
+
+### `/users/:id`
+
+### Exemplo de Request:
+
+```
+GET /users
+Host: http://6468468
+Authorization: Bearer {token}
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+
+| Parâmetro | Tipo   | Descrição                             |
+| --------- | ------ | ------------------------------------- |
+| id        | string | Identificador único do usuário (User) |
+
+### Corpo da Requisição:
+
+```json
+Vazio
+```
+
+### Exemplo de Response:
+
+```
+200 OK
 ```
 
 ```json
+{
+  "id": "a5a82435-b641-4efc-9acb-16464e38cd09",
+  "name": "jorge",
+  "email": "jorge@email.com",
+  "createdAt": "2022-11-17",
+  "updatedAt": "2022-11-17",
+  "projects": []
+}
+```
 
+### Possíveis Erros:
+
+| Código do Erro   | Descrição                      |
+| ---------------- | ------------------------------ |
+| 401 Unauthorized | Invalid token.                 |
+| 403 Forbidden    | User does not have permission. |
+| 404 Not Found    | User not found.                |
+
+---
+
+### 1.4. **Atualizar Usuário por ID**
+
+[ Voltar aos Endpoints ](#4-endpoints)
+
+### `/users/:id`
+
+### Exemplo de Request:
+
+```
+PATCH /users/9cda28c9-e540-4b2c-bf0c-c90006d37893
+Host: http://32131321
+Authorization: Bearer {token}
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+
+| Parâmetro | Tipo   | Descrição                             |
+| --------- | ------ | ------------------------------------- |
+| id        | string | Identificador único do usuário (User) |
+
+### Corpo da Requisição:
+
+```json
+{
+  "name": "sergio",
+  "email": "sergio@email.com",
+  "password": "123456"
+}
+```
+
+### Exemplo de Response:
+
+```
+200 OK
 ```
 
 ```json
-
+{
+  "id": "d4a71f65-8f6b-40ea-a6a1-0435d4ed6bae",
+  "name": "sergio",
+  "email": "sergio@email.com",
+  "createdAt": "2022-09-03",
+  "updatedAt": "2022-09-03",
+  "projects": []
+}
 ```
 
-## Rotas que necessitam de autorização
+### Possíveis Erros:
 
-### Rotas que necessitam de autorização deve ser informado no cabeçalho da requisição o campo "Authorization", dessa forma:
+| Código do Erro   | Descrição                      |
+| ---------------- | ------------------------------ |
+| 401 Unauthorized | Invalid token.                 |
+| 403 Forbidden    | User does not have permission. |
+| 404 Not Found    | User not found.                |
 
-> Authorization: Bearer {token}
+### 1.5. **Remover Usuário por ID**
 
-POST /users - cria um usuário <br/>
-POST /login - inicia a seção <br/>
-POST /email - envia um email <br/>
-POST /projects - cria um novo projeto <br/>
+[ Voltar aos Endpoints ](#4-endpoints)
 
-GET /projects - lista todos os projetos do usuário <br/>
-GET /projects/frontEnd - lista os projetos frontEnd do usuário <br/>
-GET /projects/backEnd - lista os projetos backEnd do usuário <br/>
-GET /projects/:id - pega um projeto do usuário <br/>
+### `/users/:id`
 
-PATCH /projects/:id - atualiza um projeto do usuário <br/>
-PATCH /users/:id - atualiza um usuário <br/>
+### Exemplo de Request:
 
-DELETE /users/:id - remove um usuário <br/>
-DELETE /projects/:id - remove um projeto do usuário <br/>
+```
+DELETE /users/9cda28c9-e540-4b2c-bf0c-c90006d37893
+Host: http://32131321
+Authorization: Bearer {token}
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+
+| Parâmetro | Tipo   | Descrição                             |
+| --------- | ------ | ------------------------------------- |
+| id        | string | Identificador único do usuário (User) |
+
+### Corpo da Requisição:
+
+```json
+vazio
+```
+
+### Exemplo de Response:
+
+```
+204 OK
+```
+
+```json
+vazio
+```
+
+### Possíveis Erros:
+
+| Código do Erro   | Descrição                      |
+| ---------------- | ------------------------------ |
+| 401 Unauthorized | Invalid token.                 |
+| 403 Forbidden    | User does not have permission. |
+| 404 Not Found    | User not found.                |
+
+## 2. **Projects**
+
+[ Voltar para os Endpoints ](#4-endpoints)
+
+O objeto User é definido como:
+
+| Campo       | Tipo   | Descrição                                |
+| ----------- | ------ | ---------------------------------------- |
+| id          | string | Identificador único do usuário           |
+| name        | string | O nome do usuário.                       |
+| type        | string | O tipo do projeto (frontend ou backend). |
+| image       | string | Url da imagem do projeto                 |
+| description | string | Descrição do projeto                     |
+| repository  | string | Link para o repositório do projeto       |
+| application | string | Link para a aplicação                    |
+| createdAt   | date   | Data da criação do usuário               |
+| updatedAt   | date   | Data da ultima atualização do usuário    |
+
+### Endpoints
+
+| Método | Rota                | Descrição                                       |
+| ------ | ------------------- | ----------------------------------------------- |
+| POST   | /projects           | Criação de um projeto.                          |
+| GET    | /projects           | Lista os projetos do usuário.                   |
+| GET    | /projects/:id       | Busca o projeto usando seu ID como parâmetro    |
+| GET    | /projects/frontEnd  | Busca os projetos do tipo frontEnd              |
+| GET    | /projects/backEnd   | Busca os projetos do tipo backEnd               |
+| GET    | /projects/fullStack | Busca os projetos do tipo fullStack             |
+| PATCH  | /projects/:id       | Atualiza o projeto usando seu ID como parâmetro |
+| DELETE | /projects/:id       | Remove o projeto usando seu ID como parâmetro   |
+
+### Filtros
+
+| Método | Rota                     | Descrição                           |
+| ------ | ------------------------ | ----------------------------------- |
+| GET    | /projects?type=frontEnd  | Busca os projetos do tipo frontEnd  |
+| GET    | /projects?type=backEnd   | Busca os projetos do tipo backEnd   |
+| GET    | /projects?type=fullStack | Busca os projetos do tipo fullStack |
+
+---
+
+### 2.1. **Criação de Projeto**
+
+[ Voltar para os Endpoints ](#4-endpoints)
+
+### `/projects`
+
+### Exemplo de Request:
+
+```
+POST /projects
+Host: http://<base_url>
+Authorization: Bearer {token}
+Content-type: application/json
+```
+
+### Corpo da Requisição:
+
+```json
+{
+  "name": "projeto",
+  "type": "frontEnd",
+  "image": "https://www.projeto.com.br",
+  "description": "site do projeto",
+  "repository": "https://projeto.com.br",
+  "application": "https://projeto.com.br"
+}
+```
+
+### Schema de Validação com Yup:
+
+```javascript
+  name: yup.string().required().min(3),
+  type: yup.string().required().min(5),
+  image: yup.string().required().matches(validUrl, "URL is not valid image"),
+  description: yup.string().required().min(10),
+  repository: yup.string().required().matches(validUrl, "URL is not valid repository"),
+  application: yup.string().required().matches(validUrl, "URL is not valid application"),
+```
+
+OBS.: Chaves não presentes no schema serão removidas.
+
+### Exemplo de Response:
+
+```
+201 Created
+```
+
+```json
+{
+  "id": "def1b011-1aef-4bd4-a97e-b3b0954cbbfc",
+  "name": "projeto",
+  "type": "frontEnd",
+  "image": "https://www.projeto.com.br",
+  "description": "site do projeto",
+  "repository": "https://projeto.com.br",
+  "application": "https://projeto.com.br",
+  "createdAt": "2022-11-18",
+  "updatedAt": "2022-11-18"
+}
+```
+
+### Possíveis Erros:
+
+| Código do Erro   | Descrição                  |
+| ---------------- | -------------------------- |
+| 400 Bad Request  | `key` is a required field. |
+| 401 Unauthorized | Invalid token.             |
+
+---
+
+### 2.2. **Listando Projetos**
+
+[ Voltar aos Endpoints ](#4-endpoints)
+
+### `/projects`
+
+### Exemplo de Request:
+
+```
+GET /projects
+Host: http://135131
+Authorization: Bearer {token}
+Content-type: application/json
+```
+
+### Corpo da Requisição:
+
+```json
+vazio
+```
+
+### Exemplo de Response:
+
+```
+200 OK
+```
+
+```json
+[
+  {
+    "id": "def1b011-1aef-4bd4-a97e-b3b0954cbbfc",
+    "name": "projeto",
+    "type": "frontEnd",
+    "image": "https://www.projeto.com.br",
+    "description": "site do projeto",
+    "repository": "https://projeto.com.br",
+    "application": "https://projeto.com.br",
+    "createdAt": "2022-11-18",
+    "updatedAt": "2022-11-18"
+  }
+]
+```
+
+### Possíveis Erros:
+
+Nenhum, o máximo que pode acontecer é retornar uma lista vazia.
+
+### 2.2.1. **Filtrar Projetos FrontEnd**
+
+[ Voltar aos Endpoints ](#4-endpoints)
+
+### `/projects?type=frontEnd`
+
+### Exemplo de Request:
+
+```
+GET /projects?type=frontEnd
+Host: http://6468468
+Authorization: Bearer {token}
+Content-type: application/json
+```
+
+### Corpo da Requisição:
+
+```json
+Vazio
+```
+
+### Exemplo de Response:
+
+```
+200 OK
+```
+
+```json
+[
+  {
+    "id": "def1b011-1aef-4bd4-a97e-b3b0954cbbfc",
+    "name": "projeto",
+    "type": "frontEnd",
+    "image": "https://www.projeto.com.br",
+    "description": "site do projeto",
+    "repository": "https://projeto.com.br",
+    "application": "https://projeto.com.br",
+    "createdAt": "2022-11-18",
+    "updatedAt": "2022-11-18"
+  }
+]
+```
+
+### Possíveis Erros:
+
+Nenhum, o máximo que pode acontecer é retornar uma lista vazia.
+
+---
+
+### 2.2.2. **Filtrar Projetos BackEnd**
+
+[ Voltar aos Endpoints ](#4-endpoints)
+
+### `/projects?type=backEnd`
+
+### Exemplo de Request:
+
+```
+GET /projects?type=backEnd
+Host: http://6468468
+Authorization: Bearer {token}
+Content-type: application/json
+```
+
+### Corpo da Requisição:
+
+```json
+Vazio
+```
+
+### Exemplo de Response:
+
+```
+200 OK
+```
+
+```json
+[
+  {
+    "id": "def1b011-1aef-4bd4-a97e-b3b0954cbbfc",
+    "name": "projeto",
+    "type": "backEnd",
+    "image": "https://www.projeto.com.br",
+    "description": "site do projeto",
+    "repository": "https://projeto.com.br",
+    "application": "https://projeto.com.br",
+    "createdAt": "2022-11-18",
+    "updatedAt": "2022-11-18"
+  }
+]
+```
+
+### Possíveis Erros:
+
+Nenhum, o máximo que pode acontecer é retornar uma lista vazia.
+
+---
+
+### 2.2.3. **Filtrar Projetos FullStack**
+
+[ Voltar aos Endpoints ](#4-endpoints)
+
+### `/projects?type=fullStack`
+
+### Exemplo de Request:
+
+```
+GET /projects?type=fullStack
+Host: http://6468468
+Authorization: Bearer {token}
+Content-type: application/json
+```
+
+### Corpo da Requisição:
+
+```json
+Vazio
+```
+
+### Exemplo de Response:
+
+```
+200 OK
+```
+
+```json
+[
+  {
+    "id": "def1b011-1aef-4bd4-a97e-b3b0954cbbfc",
+    "name": "projeto",
+    "type": "fullStack",
+    "image": "https://www.projeto.com.br",
+    "description": "site do projeto",
+    "repository": "https://projeto.com.br",
+    "application": "https://projeto.com.br",
+    "createdAt": "2022-11-18",
+    "updatedAt": "2022-11-18"
+  }
+]
+```
+
+### Possíveis Erros:
+
+Nenhum, o máximo que pode acontecer é retornar uma lista vazia.
+
+---
+
+### 2.3. **Pegar Projeto por ID**
+
+[ Voltar aos Endpoints ](#4-endpoints)
+
+### `/projects/:id`
+
+### Exemplo de Request:
+
+```
+GET /projects/def1b011-1aef-4bd4-a97e-b3b0954cbbfc
+Host: http://6468468
+Authorization: Bearer {token}
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+
+| Parâmetro | Tipo   | Descrição                                |
+| --------- | ------ | ---------------------------------------- |
+| id        | string | Identificador único do projeto (Project) |
+
+### Corpo da Requisição:
+
+```json
+Vazio
+```
+
+### Exemplo de Response:
+
+```
+200 OK
+```
+
+```json
+{
+  "id": "def1b011-1aef-4bd4-a97e-b3b0954cbbfc",
+  "name": "projeto",
+  "type": "frontEnd",
+  "image": "https://www.projeto.com.br",
+  "description": "site do projeto",
+  "repository": "https://projeto.com.br",
+  "application": "https://projeto.com.br",
+  "createdAt": "2022-11-18",
+  "updatedAt": "2022-11-18"
+}
+```
+
+### Possíveis Erros:
+
+| Código do Erro   | Descrição                         |
+| ---------------- | --------------------------------- |
+| 401 Unauthorized | Invalid token.                    |
+| 403 Forbidden    | Project does not have permission. |
+| 404 Not Found    | Project not found.                |
+
+---
+
+### 2.4. **Atualizar Projeto por ID**
+
+[ Voltar aos Endpoints ](#4-endpoints)
+
+### `/projects/:id`
+
+### Exemplo de Request:
+
+```
+PATCH /projects/def1b011-1aef-4bd4-a97e-b3b0954cbbfc
+Host: http://32131321
+Authorization: Bearer {token}
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+
+| Parâmetro | Tipo   | Descrição                                |
+| --------- | ------ | ---------------------------------------- |
+| id        | string | Identificador único do projeto (Project) |
+
+### Corpo da Requisição:
+
+```json
+{
+  "name": "updated",
+  "type": "backEnd",
+  "image": "updated",
+  "description": "updated do updated",
+  "repository": "updated",
+  "application": "updated"
+}
+```
+
+### Exemplo de Response:
+
+```
+200 OK
+```
+
+```json
+{
+  "id": "def1b011-1aef-4bd4-a97e-b3b0954cbbfc",
+  "name": "updated",
+  "type": "backEnd",
+  "image": "updated",
+  "description": "updated do updated",
+  "repository": "updated",
+  "application": "updated",
+  "createdAt": "2022-09-03",
+  "updatedAt": "2022-09-03"
+}
+```
+
+### Possíveis Erros:
+
+| Código do Erro   | Descrição                         |
+| ---------------- | --------------------------------- |
+| 401 Unauthorized | Invalid token.                    |
+| 403 Forbidden    | Project does not have permission. |
+| 404 Not Found    | Project not found.                |
+
+### 2.5. **Remover Projeto por ID**
+
+[ Voltar aos Endpoints ](#4-endpoints)
+
+### `/projects/:id`
+
+### Exemplo de Request:
+
+```
+DELETE /projects/9cda28c9-e540-4b2c-bf0c-c90006d37893
+Host: http://32131321
+Authorization: Bearer {token}
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+
+| Parâmetro | Tipo   | Descrição                                 |
+| --------- | ------ | ----------------------------------------- |
+| id        | string | Identificador único do projects (Project) |
+
+### Corpo da Requisição:
+
+```json
+vazio
+```
+
+### Exemplo de Response:
+
+```
+204 OK
+```
+
+```json
+vazio
+```
+
+### Possíveis Erros:
+
+| Código do Erro   | Descrição                         |
+| ---------------- | --------------------------------- |
+| 401 Unauthorized | Invalid token.                    |
+| 403 Forbidden    | Project does not have permission. |
+| 404 Not Found    | Project not found.                |
