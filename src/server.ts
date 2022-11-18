@@ -10,7 +10,7 @@ import AppDataSource from "./data-source";
       console.error("Error during Data Source initialization", err);
     });
 
-  app.listen(`0.0.0.0:${process.env.PORT}` || `0.0.0.0:${3000}`, () => {
-    console.log(`Server is running on port ${`0.0.0.0:${process.env.PORT}` || `0.0.0.0:${3000}`}`);
+  app.listen(process.env.PORT || 3000, () => {
+    console.log(`Server is running on port ${process.env.PORT || 3000}`);
   });
 })();
