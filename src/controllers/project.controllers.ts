@@ -21,7 +21,8 @@ const createProjectController = async (req: Request, res: Response) => {
 
 const listProjectsController = async (req: Request, res: Response) => {
   const userLogged = req.user.id;
-  const projectList = await ListProjectsService(userLogged);
+  const type = req.query.type || "";
+  const projectList = await ListProjectsService(userLogged, type as string);
 
   return res.json(projectList);
 };

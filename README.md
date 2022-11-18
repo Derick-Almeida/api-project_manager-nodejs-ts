@@ -102,12 +102,12 @@ Rotas que necessitam de autenticação deve ser informado no cabeçalho da requi
 - [Projects](#2-projects)
   - [POST - /projects](#21-criação-de-projeto)
   - [GET - /projects](#22-listando-projetos)
+    - [GET - /projects?type=frontEnd](#221-filtrar-projetos-frontend)
+    - [GET - /projects?type=backEnd](#222-filtrar-projetos-backend)
+    - [GET - /projects?type=fullStack](#223-filtrar-projetos-fullstack)
   - [GET - /projects/:id](#23-pegar-projeto-por-id)
-  - [GET - /projects/frontEnd](#24-listar-projetos-frontend)
-  - [GET - /projects/backEnd](#25-listar-projetos-backend)
-  - [GET - /projects/fullStack](#26-listar-projetos-fullstack)
-  - [PATCH - /projects/:id](#27-atualizar-projeto-por-id)
-  - [DELETE - /projects/:id](#28-remover-projeto-por-id)
+  - [PATCH - /projects/:id](#24-atualizar-projeto-por-id)
+  - [DELETE - /projects/:id](#25-remover-projeto-por-id)
 
 ---
 
@@ -438,6 +438,14 @@ O objeto User é definido como:
 | PATCH  | /projects/:id       | Atualiza o projeto usando seu ID como parâmetro |
 | DELETE | /projects/:id       | Remove o projeto usando seu ID como parâmetro   |
 
+### Filtros
+
+| Método | Rota                     | Descrição                           |
+| ------ | ------------------------ | ----------------------------------- |
+| GET    | /projects?type=frontEnd  | Busca os projetos do tipo frontEnd  |
+| GET    | /projects?type=backEnd   | Busca os projetos do tipo backEnd   |
+| GET    | /projects?type=fullStack | Busca os projetos do tipo fullStack |
+
 ---
 
 ### 2.1. **Criação de Projeto**
@@ -557,6 +565,153 @@ vazio
 
 Nenhum, o máximo que pode acontecer é retornar uma lista vazia.
 
+### 2.2.1. **Filtrar Projetos FrontEnd**
+
+[ Voltar aos Endpoints ](#4-endpoints)
+
+### `/projects?type=frontEnd`
+
+### Exemplo de Request:
+
+```
+GET /projects?type=frontEnd
+Host: http://6468468
+Authorization: Bearer {token}
+Content-type: application/json
+```
+
+### Corpo da Requisição:
+
+```json
+Vazio
+```
+
+### Exemplo de Response:
+
+```
+200 OK
+```
+
+```json
+[
+  {
+    "id": "def1b011-1aef-4bd4-a97e-b3b0954cbbfc",
+    "name": "projeto",
+    "type": "frontEnd",
+    "image": "https://www.projeto.com.br",
+    "description": "site do projeto",
+    "repository": "https://projeto.com.br",
+    "application": "https://projeto.com.br",
+    "createdAt": "2022-11-18",
+    "updatedAt": "2022-11-18"
+  }
+]
+```
+
+### Possíveis Erros:
+
+Nenhum, o máximo que pode acontecer é retornar uma lista vazia.
+
+---
+
+### 2.2.2. **Filtrar Projetos BackEnd**
+
+[ Voltar aos Endpoints ](#4-endpoints)
+
+### `/projects?type=backEnd`
+
+### Exemplo de Request:
+
+```
+GET /projects?type=backEnd
+Host: http://6468468
+Authorization: Bearer {token}
+Content-type: application/json
+```
+
+### Corpo da Requisição:
+
+```json
+Vazio
+```
+
+### Exemplo de Response:
+
+```
+200 OK
+```
+
+```json
+[
+  {
+    "id": "def1b011-1aef-4bd4-a97e-b3b0954cbbfc",
+    "name": "projeto",
+    "type": "backEnd",
+    "image": "https://www.projeto.com.br",
+    "description": "site do projeto",
+    "repository": "https://projeto.com.br",
+    "application": "https://projeto.com.br",
+    "createdAt": "2022-11-18",
+    "updatedAt": "2022-11-18"
+  }
+]
+```
+
+### Possíveis Erros:
+
+Nenhum, o máximo que pode acontecer é retornar uma lista vazia.
+
+---
+
+### 2.2.3. **Filtrar Projetos FullStack**
+
+[ Voltar aos Endpoints ](#4-endpoints)
+
+### `/projects?type=fullStack`
+
+### Exemplo de Request:
+
+```
+GET /projects?type=fullStack
+Host: http://6468468
+Authorization: Bearer {token}
+Content-type: application/json
+```
+
+### Corpo da Requisição:
+
+```json
+Vazio
+```
+
+### Exemplo de Response:
+
+```
+200 OK
+```
+
+```json
+[
+  {
+    "id": "def1b011-1aef-4bd4-a97e-b3b0954cbbfc",
+    "name": "projeto",
+    "type": "fullStack",
+    "image": "https://www.projeto.com.br",
+    "description": "site do projeto",
+    "repository": "https://projeto.com.br",
+    "application": "https://projeto.com.br",
+    "createdAt": "2022-11-18",
+    "updatedAt": "2022-11-18"
+  }
+]
+```
+
+### Possíveis Erros:
+
+Nenhum, o máximo que pode acontecer é retornar uma lista vazia.
+
+---
+
 ### 2.3. **Pegar Projeto por ID**
 
 [ Voltar aos Endpoints ](#4-endpoints)
@@ -614,154 +769,7 @@ Vazio
 
 ---
 
-### 2.4. **Listar Projetos FrontEnd**
-
-[ Voltar aos Endpoints ](#4-endpoints)
-
-### `/projects/frontEnd`
-
-### Exemplo de Request:
-
-```
-GET /projects/frontEnd
-Host: http://6468468
-Authorization: Bearer {token}
-Content-type: application/json
-```
-
-### Corpo da Requisição:
-
-```json
-Vazio
-```
-
-### Exemplo de Response:
-
-```
-200 OK
-```
-
-```json
-[
-  {
-    "id": "def1b011-1aef-4bd4-a97e-b3b0954cbbfc",
-    "name": "projeto",
-    "type": "frontEnd",
-    "image": "https://www.projeto.com.br",
-    "description": "site do projeto",
-    "repository": "https://projeto.com.br",
-    "application": "https://projeto.com.br",
-    "createdAt": "2022-11-18",
-    "updatedAt": "2022-11-18"
-  }
-]
-```
-
-### Possíveis Erros:
-
-Nenhum, o máximo que pode acontecer é retornar uma lista vazia.
-
----
-
-### 2.5. **Listar Projetos BackEnd**
-
-[ Voltar aos Endpoints ](#4-endpoints)
-
-### `/projects/backEnd`
-
-### Exemplo de Request:
-
-```
-GET /projects/backEnd
-Host: http://6468468
-Authorization: Bearer {token}
-Content-type: application/json
-```
-
-### Corpo da Requisição:
-
-```json
-Vazio
-```
-
-### Exemplo de Response:
-
-```
-200 OK
-```
-
-```json
-[
-  {
-    "id": "def1b011-1aef-4bd4-a97e-b3b0954cbbfc",
-    "name": "projeto",
-    "type": "backEnd",
-    "image": "https://www.projeto.com.br",
-    "description": "site do projeto",
-    "repository": "https://projeto.com.br",
-    "application": "https://projeto.com.br",
-    "createdAt": "2022-11-18",
-    "updatedAt": "2022-11-18"
-  }
-]
-```
-
-### Possíveis Erros:
-
-Nenhum, o máximo que pode acontecer é retornar uma lista vazia.
-
----
-
-### 2.6. **Listar Projetos FullStack**
-
-[ Voltar aos Endpoints ](#4-endpoints)
-
-### `/projects/:id`
-
-### Exemplo de Request:
-
-```
-GET /projects/fullStack
-Host: http://6468468
-Authorization: Bearer {token}
-Content-type: application/json
-```
-
-### Corpo da Requisição:
-
-```json
-Vazio
-```
-
-### Exemplo de Response:
-
-```
-200 OK
-```
-
-```json
-[
-  {
-    "id": "def1b011-1aef-4bd4-a97e-b3b0954cbbfc",
-    "name": "projeto",
-    "type": "fullStack",
-    "image": "https://www.projeto.com.br",
-    "description": "site do projeto",
-    "repository": "https://projeto.com.br",
-    "application": "https://projeto.com.br",
-    "createdAt": "2022-11-18",
-    "updatedAt": "2022-11-18"
-  }
-]
-```
-
-### Possíveis Erros:
-
-Nenhum, o máximo que pode acontecer é retornar uma lista vazia.
-
----
-
-### 2.7. **Atualizar Projeto por ID**
+### 2.4. **Atualizar Projeto por ID**
 
 [ Voltar aos Endpoints ](#4-endpoints)
 
@@ -823,7 +831,7 @@ Content-type: application/json
 | 403 Forbidden    | Project does not have permission. |
 | 404 Not Found    | Project not found.                |
 
-### 2.8. **Remover Projeto por ID**
+### 2.5. **Remover Projeto por ID**
 
 [ Voltar aos Endpoints ](#4-endpoints)
 
