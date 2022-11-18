@@ -6,8 +6,9 @@ services:
     build: .
     ports:
       - 3000:3000
-    env_file:
-      - .env
+    environment:
+      - DATABASE_URL=postgres://derick:32755428@db:5432/portifolio_api
+      - SECRET_KEY=7cd9f0962690818c4f5c6e923d81dbc5
     depends_on:
       db:
         condition: service_healthy
@@ -19,12 +20,10 @@ services:
     image: postgres:latest
     ports:
       - 5431:5432
-    environment:
-      - POSTGRES_USER=derick
-      - POSTGRES_PASSWORD=32755428
-      - POSTGRES_DB=portifolio_api
+    env_file:
+      - .env
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U derick -d portifolio_api"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB"]
       interval: 10s
       timeout: 5s
       retries: 5
