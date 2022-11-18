@@ -1,6 +1,29 @@
 version: "3.9"
 
 services:
+  db:
+    container_name: db
+    image: postgres:latest
+    ports:
+      - 5431:5432
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+  migration:
+    build: .
+    command: yarn typeorm migration:run -d src/data-source
+    volumes:
+      - .:/code
+    depends_on:
+      db:
+        condition: service_healthy
+
   api:
     container_name: api
     build: .
@@ -11,19 +34,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      migration:
+        condition: service_completed_successfully
     volumes:
       - .:/app
-
-  db:
-    container_name: db
-    image: postgres:latest
-    ports:
-      - 5431:5432
-    env_file:
-      - .env
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 5s
