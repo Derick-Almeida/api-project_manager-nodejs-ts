@@ -6,9 +6,8 @@ services:
     build: .
     ports:
       - 3000:3000
-    environment:
-      - DATABASE_URL=postgres://derick:32755428@db:5432/portifolio_api
-      - SECRET_KEY=7cd9f0962690818c4f5c6e923d81dbc5
+    env_file:
+      - .env
     depends_on:
       db:
         condition: service_healthy
