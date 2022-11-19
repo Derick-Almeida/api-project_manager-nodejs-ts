@@ -43,7 +43,7 @@ Visão geral do projeto, um pouco das tecnologias usadas.
 - [Yup](https://www.npmjs.com/package/yup)
 
 A URL base da aplicação:
-http://<base_url>
+https://portifolioapi-production.up.railway.app/
 
 ## 2. Início Rápido
 
@@ -96,7 +96,7 @@ Rotas que necessitam de autenticação deve ser informado no cabeçalho da requi
 - [Users](#1-users)
   - [POST - /users](#11-criação-de-usuário)
   - [POST - /login](#12-iniciando-sessão)
-  - [GET - /users/:user_id](#13-pegar-usuário-por-id)
+  - [GET - /users/profile](#13-pegar-usuário-logado)
   - [PATCH - /users/:user_id](#14-atualizar-usuário-por-id)
   - [DELETE - /users/:user_id](#15-remover-usuário-por-id)
 - [Projects](#2-projects)
@@ -129,13 +129,13 @@ O objeto User é definido como:
 
 ### Endpoints
 
-| Método | Rota       | Descrição                                       |
-| ------ | ---------- | ----------------------------------------------- |
-| POST   | /users     | Criação de um usuário.                          |
-| POST   | /login     | Inicia a sessão do usuário                      |
-| GET    | /users/:id | Busca o usuário usando seu ID como parâmetro    |
-| PATCH  | /users/:id | Atualiza o usuário usando seu ID como parâmetro |
-| DELETE | /users/:id | Remove o usuário usando seu ID como parâmetro   |
+| Método | Rota           | Descrição                                       |
+| ------ | -------------- | ----------------------------------------------- |
+| POST   | /users         | Criação de um usuário.                          |
+| POST   | /login         | Inicia a sessão do usuário                      |
+| GET    | /users/profile | Busca o usuário logado                          |
+| PATCH  | /users/:id     | Atualiza o usuário usando seu ID como parâmetro |
+| DELETE | /users/:id     | Remove o usuário usando seu ID como parâmetro   |
 
 ---
 
@@ -149,7 +149,7 @@ O objeto User é definido como:
 
 ```
 POST /users
-Host: http://<base_url>
+Host: https://portifolioapi-production.up.railway.app/users
 Authorization: None
 Content-type: application/json
 ```
@@ -211,7 +211,7 @@ OBS.: Chaves não presentes no schema serão removidas.
 
 ```
 POST /login
-Host: http://135131
+Host: https://portifolioapi-production.up.railway.app/login
 Authorization: None
 Content-type: application/json
 ```
@@ -252,26 +252,20 @@ OBS.: Chaves não presentes no schema serão removidas.
 | --------------- | -------------------------- |
 | 400 Bad Request | Email or password invalid. |
 
-### 1.3. **Pegar Usuário por ID**
+### 1.3. **Pegar Usuário Logado**
 
 [ Voltar aos Endpoints ](#4-endpoints)
 
-### `/users/:id`
+### `/users/profile`
 
 ### Exemplo de Request:
 
 ```
-GET /users
-Host: http://6468468
+GET /profile
+Host: https://portifolioapi-production.up.railway.app/users/profile
 Authorization: Bearer {token}
 Content-type: application/json
 ```
-
-### Parâmetros da Requisição:
-
-| Parâmetro | Tipo   | Descrição                             |
-| --------- | ------ | ------------------------------------- |
-| id        | string | Identificador único do usuário (User) |
 
 ### Corpo da Requisição:
 
@@ -298,11 +292,9 @@ Vazio
 
 ### Possíveis Erros:
 
-| Código do Erro   | Descrição                      |
-| ---------------- | ------------------------------ |
-| 401 Unauthorized | Invalid token.                 |
-| 403 Forbidden    | User does not have permission. |
-| 404 Not Found    | User not found.                |
+| Código do Erro   | Descrição      |
+| ---------------- | -------------- |
+| 401 Unauthorized | Invalid token. |
 
 ---
 
@@ -316,7 +308,7 @@ Vazio
 
 ```
 PATCH /users/9cda28c9-e540-4b2c-bf0c-c90006d37893
-Host: http://32131321
+Host: https://portifolioapi-production.up.railway.app/users/9cda28c9-e540-4b2c-bf0c-c90006d37893
 Authorization: Bearer {token}
 Content-type: application/json
 ```
@@ -372,7 +364,7 @@ Content-type: application/json
 
 ```
 DELETE /users/9cda28c9-e540-4b2c-bf0c-c90006d37893
-Host: http://32131321
+Host: https://portifolioapi-production.up.railway.app/users/9cda28c9-e540-4b2c-bf0c-c90006d37893
 Authorization: Bearer {token}
 Content-type: application/json
 ```
@@ -458,7 +450,7 @@ O objeto User é definido como:
 
 ```
 POST /projects
-Host: http://<base_url>
+Host: https://portifolioapi-production.up.railway.app/projects
 Authorization: Bearer {token}
 Content-type: application/json
 ```
@@ -528,7 +520,7 @@ OBS.: Chaves não presentes no schema serão removidas.
 
 ```
 GET /projects
-Host: http://135131
+Host: https://portifolioapi-production.up.railway.app/projects
 Authorization: Bearer {token}
 Content-type: application/json
 ```
@@ -575,7 +567,7 @@ Nenhum, o máximo que pode acontecer é retornar uma lista vazia.
 
 ```
 GET /projects?type=frontEnd
-Host: http://6468468
+Host: https://portifolioapi-production.up.railway.app/projects?type=frontEnd
 Authorization: Bearer {token}
 Content-type: application/json
 ```
@@ -624,7 +616,7 @@ Nenhum, o máximo que pode acontecer é retornar uma lista vazia.
 
 ```
 GET /projects?type=backEnd
-Host: http://6468468
+Host: https://portifolioapi-production.up.railway.app/projects?type=backEnd
 Authorization: Bearer {token}
 Content-type: application/json
 ```
@@ -673,7 +665,7 @@ Nenhum, o máximo que pode acontecer é retornar uma lista vazia.
 
 ```
 GET /projects?type=fullStack
-Host: http://6468468
+Host: https://portifolioapi-production.up.railway.app/projects?type=fullStack
 Authorization: Bearer {token}
 Content-type: application/json
 ```
@@ -722,7 +714,7 @@ Nenhum, o máximo que pode acontecer é retornar uma lista vazia.
 
 ```
 GET /projects/def1b011-1aef-4bd4-a97e-b3b0954cbbfc
-Host: http://6468468
+Host: https://portifolioapi-production.up.railway.app/projects/def1b011-1aef-4bd4-a97e-b3b0954cbbfc
 Authorization: Bearer {token}
 Content-type: application/json
 ```
@@ -779,7 +771,7 @@ Vazio
 
 ```
 PATCH /projects/def1b011-1aef-4bd4-a97e-b3b0954cbbfc
-Host: http://32131321
+Host: https://portifolioapi-production.up.railway.app/projects/def1b011-1aef-4bd4-a97e-b3b0954cbbfc
 Authorization: Bearer {token}
 Content-type: application/json
 ```
@@ -841,7 +833,7 @@ Content-type: application/json
 
 ```
 DELETE /projects/9cda28c9-e540-4b2c-bf0c-c90006d37893
-Host: http://32131321
+Host: https://portifolioapi-production.up.railway.app/projects/def1b011-1aef-4bd4-a97e-b3b0954cbbfc
 Authorization: Bearer {token}
 Content-type: application/json
 ```

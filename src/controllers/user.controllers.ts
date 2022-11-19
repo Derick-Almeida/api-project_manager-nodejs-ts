@@ -15,9 +15,8 @@ const createUserController = async (req: Request, res: Response) => {
 };
 
 const getUserController = async (req: Request, res: Response) => {
-  const { id } = req.params;
   const userId = req.user.id;
-  const user = await getUserService(id, userId);
+  const user = await getUserService(userId);
 
   return res.json(instanceToPlain(user));
 };

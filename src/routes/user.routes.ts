@@ -14,7 +14,7 @@ const router = Router();
 
 const userRoutes = () => {
   router.post("", validationSchema(createUserSchema), createUserController);
-  router.get("/:id", authUser, getUserController);
+  router.get("/profile", authUser, getUserController);
   router.patch("/:id", authUser, updateUserController);
   router.delete("/:id", authUser, deleteUserController);
 
