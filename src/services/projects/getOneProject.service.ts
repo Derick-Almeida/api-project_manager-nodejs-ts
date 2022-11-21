@@ -9,10 +9,7 @@ const getOneProjectService = async (id: string, userId: string): Promise<Project
 
   const user = await userRepository.findOneBy({ id: userId });
 
-  const project = await projectsRepository.findOne({
-    where: { id },
-    relations: { user: true },
-  });
+  const project = await projectsRepository.findOneBy({ id });
 
   if (!project) {
     throw new AppError("Project not found", 404);

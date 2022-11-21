@@ -24,13 +24,13 @@ class User {
   @Exclude()
   password: string;
 
-  @CreateDateColumn({ type: "date" })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn({ type: "date" })
+  @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => Project, (project) => project.user, { onDelete: "CASCADE", eager: true })
+  @OneToMany(() => Project, (project) => project.user, { onDelete: "CASCADE" })
   projects: Project[];
 }
 

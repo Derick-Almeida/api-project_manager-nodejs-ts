@@ -21,7 +21,14 @@ const createUserService = async ({ email, name, password }: IUserRequest): Promi
     password: hashedPasword,
   });
 
-  const createdUser = await userRepository.findOneBy({ id: user.id });
+  const createdUser = await userRepository.findOne({
+    where: {
+      id: user.id,
+    },
+    relations: {
+      projects: true,
+    },
+  });
 
   return createdUser!;
 };

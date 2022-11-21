@@ -26,6 +26,9 @@ O url base da API é: https://
   - [Migrations](#23-migrations)
 - [Autenticação](#3-autenticação)
 - [Endpoints](#4-endpoints)
+- [Query params](#5-query-params)
+- [Filtros](#6-filtros)
+- [Paginação](#7-paginação)
 
 ---
 
@@ -102,12 +105,43 @@ Rotas que necessitam de autenticação deve ser informado no cabeçalho da requi
 - [Projects](#2-projects)
   - [POST - /projects](#21-criação-de-projeto)
   - [GET - /projects](#22-listando-projetos)
-    - [GET - /projects?type=frontEnd](#221-filtrar-projetos-frontend)
-    - [GET - /projects?type=backEnd](#222-filtrar-projetos-backend)
-    - [GET - /projects?type=fullStack](#223-filtrar-projetos-fullstack)
   - [GET - /projects/:id](#23-pegar-projeto-por-id)
   - [PATCH - /projects/:id](#24-atualizar-projeto-por-id)
   - [DELETE - /projects/:id](#25-remover-projeto-por-id)
+
+## 5. Query params
+
+[ Voltar para o topo ](#tabela-de-conteúdos)
+
+Ao total existen 3 query params para serem utilizados, são eles?
+
+- `/projects?type=<tipo-desejado>`
+- `/projects?page=<pagina-desejada>`
+- `/projects?results=<numero-de-resultados-na-pagina>`
+
+O uso dos mesmos serão mostrados aabaixo na filtragem dos projetos e na paginaação. Vale lembrar que todos os query params combinaveis, basta adicionar um `&` entre eles, ficando assim:
+
+- `/projects?type=<tipo-desejado>&results=<numero-de-resultados-na-pagina>`
+- `/projects?page=<pagina-desejada>&results=<numero-de-resultados-na-pagina>`
+
+dessa forma tornando possível filtragens mais especificas ou apenas facilitando o retorno dos resultados por pádina
+
+## 6. Filtros
+
+[ Voltar para o topo ](#tabela-de-conteúdos)
+
+Apenas a listgem de projetos possue filtro. <br/> É possível filtra-los
+pelo seu `type` adicioando na url o query param `/projects?type=<tipo-desejado>`
+
+## 7. paginação
+
+[ Voltar para o topo ](#tabela-de-conteúdos)
+
+Apenas a listgem de projetos possue páginação. <br/>
+Por padrão a páginação começa na página 1 e caso queira ir para a próxima deve substitur o número da página atual pelo desejado, usando o query param ficaria assim: `/projects?page=2`.
+No caso da página 1 pode ser passado o query param `/projects?page=1` ou apenas `/projects`.
+
+além da mudança de página também é possível manipular a quantidade de resultados por páginas, por padrão são retornados 15 itens por páginas, porém usando o query param `/projects?results=<numero-de-resultados-na-pagina>` podemos mudar esse retorno, como por exemplo para 2 por páginas, ficando então assim: `/projects?results=2`
 
 ---
 
@@ -556,153 +590,6 @@ vazio
 ### Possíveis Erros:
 
 Nenhum, o máximo que pode acontecer é retornar uma lista vazia.
-
-### 2.2.1. **Filtrar Projetos FrontEnd**
-
-[ Voltar aos Endpoints ](#4-endpoints)
-
-### `/projects?type=frontEnd`
-
-### Exemplo de Request:
-
-```
-GET /projects?type=frontEnd
-Host: https://portifolioapi-production.up.railway.app/projects?type=frontEnd
-Authorization: Bearer {token}
-Content-type: application/json
-```
-
-### Corpo da Requisição:
-
-```json
-Vazio
-```
-
-### Exemplo de Response:
-
-```
-200 OK
-```
-
-```json
-[
-  {
-    "id": "def1b011-1aef-4bd4-a97e-b3b0954cbbfc",
-    "name": "projeto",
-    "type": "frontEnd",
-    "image": "https://www.projeto.com.br",
-    "description": "site do projeto",
-    "repository": "https://projeto.com.br",
-    "application": "https://projeto.com.br",
-    "createdAt": "2022-11-18",
-    "updatedAt": "2022-11-18"
-  }
-]
-```
-
-### Possíveis Erros:
-
-Nenhum, o máximo que pode acontecer é retornar uma lista vazia.
-
----
-
-### 2.2.2. **Filtrar Projetos BackEnd**
-
-[ Voltar aos Endpoints ](#4-endpoints)
-
-### `/projects?type=backEnd`
-
-### Exemplo de Request:
-
-```
-GET /projects?type=backEnd
-Host: https://portifolioapi-production.up.railway.app/projects?type=backEnd
-Authorization: Bearer {token}
-Content-type: application/json
-```
-
-### Corpo da Requisição:
-
-```json
-Vazio
-```
-
-### Exemplo de Response:
-
-```
-200 OK
-```
-
-```json
-[
-  {
-    "id": "def1b011-1aef-4bd4-a97e-b3b0954cbbfc",
-    "name": "projeto",
-    "type": "backEnd",
-    "image": "https://www.projeto.com.br",
-    "description": "site do projeto",
-    "repository": "https://projeto.com.br",
-    "application": "https://projeto.com.br",
-    "createdAt": "2022-11-18",
-    "updatedAt": "2022-11-18"
-  }
-]
-```
-
-### Possíveis Erros:
-
-Nenhum, o máximo que pode acontecer é retornar uma lista vazia.
-
----
-
-### 2.2.3. **Filtrar Projetos FullStack**
-
-[ Voltar aos Endpoints ](#4-endpoints)
-
-### `/projects?type=fullStack`
-
-### Exemplo de Request:
-
-```
-GET /projects?type=fullStack
-Host: https://portifolioapi-production.up.railway.app/projects?type=fullStack
-Authorization: Bearer {token}
-Content-type: application/json
-```
-
-### Corpo da Requisição:
-
-```json
-Vazio
-```
-
-### Exemplo de Response:
-
-```
-200 OK
-```
-
-```json
-[
-  {
-    "id": "def1b011-1aef-4bd4-a97e-b3b0954cbbfc",
-    "name": "projeto",
-    "type": "fullStack",
-    "image": "https://www.projeto.com.br",
-    "description": "site do projeto",
-    "repository": "https://projeto.com.br",
-    "application": "https://projeto.com.br",
-    "createdAt": "2022-11-18",
-    "updatedAt": "2022-11-18"
-  }
-]
-```
-
-### Possíveis Erros:
-
-Nenhum, o máximo que pode acontecer é retornar uma lista vazia.
-
----
 
 ### 2.3. **Pegar Projeto por ID**
 

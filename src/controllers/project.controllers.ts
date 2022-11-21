@@ -1,6 +1,6 @@
-import { instanceToPlain } from "class-transformer";
 import { Request, Response } from "express";
 import { IProjectRequest } from "../interfaces/projects";
+import { instanceToPlain } from "class-transformer";
 
 import createProjectService from "../services/projects/createProject.service";
 import deleteProjectService from "../services/projects/deleteProject.service";
@@ -22,7 +22,11 @@ const createProjectController = async (req: Request, res: Response) => {
 const listProjectsController = async (req: Request, res: Response) => {
   const userLogged = req.user.id;
   const type = req.query.type || "";
-  const projectList = await ListProjectsService(userLogged, type as string);
+
+  const page = parseInt(req.query.page as string) || 1;
+  const perPage = parseInt(req.query.results as string) || 15;
+
+  const projectList = await ListProjectsService(userLogged, type as string, page, perPage);
 
   return res.json(projectList);
 };
@@ -32,7 +36,7 @@ const getOneProjectController = async (req: Request, res: Response) => {
   const userLogged = req.user.id;
   const project = await getOneProjectService(id, userLogged);
 
-  return res.json(project);
+  return res.json(instanceToPlain(project));
 };
 
 const updatedProjectController = async (req: Request, res: Response) => {
@@ -48,7 +52,7 @@ const updatedProjectController = async (req: Request, res: Response) => {
     repository,
   });
 
-  return res.status(200).json(project);
+  return res.status(200).json(instanceToPlain(project));
 };
 
 const deleteProjectController = async (req: Request, res: Response) => {

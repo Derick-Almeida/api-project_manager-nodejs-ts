@@ -32,13 +32,13 @@ class Project {
   @Column({ length: 250 })
   application: string;
 
-  @CreateDateColumn({ type: "date" })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn({ type: "date" })
+  @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { eager: true, onDelete: "CASCADE" })
   @Exclude()
   user: User;
 }

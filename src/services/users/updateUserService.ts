@@ -20,16 +20,21 @@ const updateUserService = async (
     throw new AppError("User does not have permission", 403);
   }
 
-  const hashedPassword = await hash(userData.password, 10);
+  const hashedPassword = userData.password ? await hash(userData.password, 10) : user.password;
 
   await userRepository.update(id, {
     name: userData.name || user.name,
     email: userData.email || user.email,
-    password: hashedPassword || user.password,
+    password: hashedPassword,
     updatedAt: new Date(),
   });
 
-  const updatedUser = await userRepository.findOneBy({ id });
+  const updatedUser = await userRepository.findOne({
+    where: { id },
+    relations: {
+      projects: true,
+    },
+  });
 
   return updatedUser!;
 };
