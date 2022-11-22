@@ -458,9 +458,6 @@ O objeto User é definido como:
 | POST   | /projects           | Criação de um projeto.                          |
 | GET    | /projects           | Lista os projetos do usuário.                   |
 | GET    | /projects/:id       | Busca o projeto usando seu ID como parâmetro    |
-| GET    | /projects/frontEnd  | Busca os projetos do tipo frontEnd              |
-| GET    | /projects/backEnd   | Busca os projetos do tipo backEnd               |
-| GET    | /projects/fullStack | Busca os projetos do tipo fullStack             |
 | PATCH  | /projects/:id       | Atualiza o projeto usando seu ID como parâmetro |
 | DELETE | /projects/:id       | Remove o projeto usando seu ID como parâmetro   |
 
